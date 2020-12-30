@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryDark"
+    app:layoutDescription="@xml/fragment_list_contact_scene"
+    tools:context=".fragment.message_list.MassageListFragment">
+
+    <ImageView
+        android:padding="6dp"
+        app:tint="@color/white"
+        android:id="@+id/ID_Setting"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ID_Unread"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:elevation="0dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="?attr/colorPrimary"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/ID_RecyclerViewContainer"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView">
+
+        <TextView
+            android:id="@+id/ID_UnreadCount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:singleLine="true"
+            android:text="99 Unread Message"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="12sp" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:elevation="16dp"
+        android:text="All Message"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ID_RecyclerViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="?attr/colorPrimary"
+        app:cardCornerRadius="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ID_Messages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/layout_contact_item" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.motion.widget.MotionLayout>

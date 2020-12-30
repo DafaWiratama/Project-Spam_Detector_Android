@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/contactListFragment">
+
+    <fragment
+        android:id="@+id/messageCheckerFragment"
+        android:name="tech.jayamakmurdigital.spamdetector.fragment.MessageCheckerFragment"
+        android:label="fragment_message_checker"
+        tools:layout="@layout/fragment_message_checker" >
+        <argument
+            android:name="contact"
+            app:argType="tech.jayamakmurdigital.spamdetector.model.Contact" />
+    </fragment>
+    <fragment
+        android:id="@+id/messagerFragment"
+        android:name="tech.jayamakmurdigital.spamdetector.fragment.message_list.MassageListFragment"
+        android:label="fragment_messager"
+        tools:layout="@layout/fragment_list_message" >
+        <argument
+            android:name="contact"
+            app:argType="tech.jayamakmurdigital.spamdetector.model.Contact" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactListFragment"
+        tools:layout="@layout/fragment_list_contact"
+        android:name="tech.jayamakmurdigital.spamdetector.fragment.contact_list.ContactFragment"
+        android:label="ContactListFragment" >
+        <action
+            android:id="@+id/action_contactListFragment_to_messagerFragment"
+            app:destination="@id/messagerFragment"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+</navigation>
