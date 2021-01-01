@@ -11,21 +11,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="16dp"
+            android:padding="16dp"
+            android:id="@+id/ID_Back"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_back"
             app:tint="@color/white" />
 
         <TextView
+            android:padding="16dp"
             android:id="@+id/ID_ContactName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:text="Contact Name"
             android:textColor="#FFFFFF"
             android:textSize="18sp"

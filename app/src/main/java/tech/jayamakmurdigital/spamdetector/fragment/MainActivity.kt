@@ -1,7 +1,6 @@
 package tech.jayamakmurdigital.spamdetector.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.loader.app.LoaderManager
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +16,8 @@ import tech.jayamakmurdigital.spamdetector.utils.SpamDetector
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         Repository.init(baseContext)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -45,5 +45,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun logD(msg: Any?) = Log.d("Eirene", msg.toString())
 

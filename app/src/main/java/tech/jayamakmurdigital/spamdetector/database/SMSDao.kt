@@ -18,9 +18,6 @@ interface SMSDao {
     @Update
     fun update(vararg user: SMS)
 
-    @Query("SELECT * FROM sms")
-    fun getMesssdfages(): Array<SMS>
-
     val contacts: Array<Contact>
         get() = ArrayList<Contact>().apply {
             messages.forEach { message ->
@@ -33,5 +30,5 @@ interface SMSDao {
         }.toTypedArray()
 
     val unread
-        get() = messages.filter { it.read }.count()
+        get() = messages.filter { !it.read }.count()
 }

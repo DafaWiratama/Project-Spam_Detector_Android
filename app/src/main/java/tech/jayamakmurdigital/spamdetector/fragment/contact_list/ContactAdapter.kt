@@ -23,7 +23,7 @@ class ContactAdapter(private val list: Array<Contact>) : RecyclerView.Adapter<Co
         holder.bind(list[position])
     }
 
-    class ViewHolder(val binding: LayoutContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: LayoutContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Contact) {
             binding.IDContactName.text = data.name
@@ -37,6 +37,7 @@ class ContactAdapter(private val list: Array<Contact>) : RecyclerView.Adapter<Co
             if (data.name.replace("+", "").isDigitsOnly()) binding.IDContactIcon.visibility = View.VISIBLE
             else binding.IDContactAlias.text = data.name.first().toString()
 
+            binding.IDSPAMBadge.visibility = if (data.messages.filter { it.spamScore ?: 0 > 80 }.count() != 0) View.VISIBLE else View.GONE
             binding.root.setOnClickListener {
                 binding.root.findNavController().navigate(ContactFragmentDirections.actionContactListFragmentToMessagerFragment(data))
             }

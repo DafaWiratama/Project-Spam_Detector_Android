@@ -7,7 +7,7 @@ object Repository {
     lateinit var db: AppDatabase
 
     fun init(context: Context) {
-        db = Room.databaseBuilder(context, AppDatabase::class.java, "message_db").fallbackToDestructiveMigration().build()
+        db = Room.databaseBuilder(context, AppDatabase::class.java, "message_db").build()
 //        CoroutineScope(Dispatchers.IO).launch { db.clearAllTables() }
     }
 

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.RecyclerView
 import tech.jayamakmurdigital.spamdetector.databinding.LayoutMessageItemBinding
-import tech.jayamakmurdigital.spamdetector.fragment.logD
 import tech.jayamakmurdigital.spamdetector.model.SMS
 import tech.jayamakmurdigital.spamdetector.utils.toString
 
@@ -33,7 +32,6 @@ class MessageListAdapter(private val list: Array<SMS>) : RecyclerView.Adapter<Me
     class ViewHolder(val binding: LayoutMessageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SMS) {
-            logD(data.spamScore)
             binding.IDMessage.text = data.text
             data.spamScore?.let { score ->
                 if (score > 80) {

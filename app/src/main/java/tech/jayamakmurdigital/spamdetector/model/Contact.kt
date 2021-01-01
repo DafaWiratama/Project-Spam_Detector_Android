@@ -13,5 +13,5 @@ class Contact(val name: String) : Parcelable {
         get() = messages.maxByOrNull { it.time }!!
 
     val getUnreadMessages
-        get() = messages.filter { it.read }.count()
+        get() = messages.filter { !it.read }.count()
 }
