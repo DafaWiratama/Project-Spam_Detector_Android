@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import tech.jayamakmurdigital.spamdetector.databinding.FragmentMessageCheckerBinding
+import tech.jayamakmurdigital.spamdetector.utils.SpamDetector
 
 
 class MessageCheckerFragment : Fragment() {
@@ -21,10 +22,8 @@ class MessageCheckerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.IDBTNCheckMessage.setOnClickListener {
             val message = binding.IDMessageInput.text.toString()
-            val server = binding.IDSPAMSERVER.text.toString()
-//            SPAMChecker(it.context, server).checkMessage(message).observe(viewLifecycleOwner) {
-//                binding.IDResultScore.text = "$it%"
-//            }
+            val ml = SpamDetector(requireContext())
+            binding.IDResultScore.text = "${ml.predict(message)}%"
         }
     }
 }

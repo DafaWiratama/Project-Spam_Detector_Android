@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,7 @@ class ContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PermissionManager(this).getPermission()
+        initSettingButton()
         CoroutineScope(Dispatchers.IO).launch {
             val contacts = Repository.db.messageDao().contacts
             val unread = Repository.db.messageDao().unread
@@ -58,5 +60,21 @@ class ContactFragment : Fragment() {
             true
         }
         binding.IDDeveloper.setOnClickListener { popup.show() }
+    }
+
+    fun initSettingButton() {
+        val popup = PopupMenu(requireContext(), binding.IDSetting)
+        popup.menu.add("Text Detector")
+        popup.menuInflater.inflate(R.menu.default_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item) {
+                popup.menu[0] -> {
+                    binding.root.findNavController().navigate(ContactFragmentDirections.actionContactListFragmentToMessageCheckerFragment())
+                }
+            }
+            true
+        }
+        binding.IDSetting.setOnClickListener { popup.show() }
     }
 }

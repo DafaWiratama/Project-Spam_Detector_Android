@@ -9,11 +9,11 @@
     app:layoutDescription="@xml/fragment_list_contact_scene">
 
     <ImageView
-        android:padding="6dp"
+        android:padding="12dp"
         app:tint="@color/white"
         android:id="@+id/ID_Setting"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_settings"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -22,9 +22,10 @@
 
     <ImageView
         android:id="@+id/ID_Developer"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:padding="2dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
         android:src="@drawable/ic_html_coding"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/ID_Setting"

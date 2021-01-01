@@ -9,11 +9,7 @@
         android:id="@+id/messageCheckerFragment"
         android:name="tech.jayamakmurdigital.spamdetector.fragment.MessageCheckerFragment"
         android:label="fragment_message_checker"
-        tools:layout="@layout/fragment_message_checker" >
-        <argument
-            android:name="contact"
-            app:argType="tech.jayamakmurdigital.spamdetector.model.Contact" />
-    </fragment>
+        tools:layout="@layout/fragment_message_checker" />
     <fragment
         android:id="@+id/messagerFragment"
         android:name="tech.jayamakmurdigital.spamdetector.fragment.message_list.MassageListFragment"
@@ -35,5 +31,8 @@
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_right"
             app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_contactListFragment_to_messageCheckerFragment"
+            app:destination="@id/messageCheckerFragment" />
     </fragment>
 </navigation>

@@ -38,6 +38,7 @@ class ContactAdapter(private val list: Array<Contact>) : RecyclerView.Adapter<Co
             else binding.IDContactAlias.text = data.name.first().toString()
 
             binding.IDSPAMBadge.visibility = if (data.messages.filter { it.spamScore ?: 0 > 80 }.count() != 0) View.VISIBLE else View.GONE
+
             binding.root.setOnClickListener {
                 binding.root.findNavController().navigate(ContactFragmentDirections.actionContactListFragmentToMessagerFragment(data))
             }
