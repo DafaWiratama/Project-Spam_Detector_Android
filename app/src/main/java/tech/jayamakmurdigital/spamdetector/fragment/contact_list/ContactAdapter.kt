@@ -33,6 +33,7 @@ class ContactAdapter(private val list: Array<Contact>) : RecyclerView.Adapter<Co
                 else data.getLastMessage.time.toString("dd MMM")
             binding.IDContactLastMessage.text = data.getLastMessage.text
             binding.IDContactUnReadCount.text = if (data.getUnreadMessages > 99) "99+" else data.getUnreadMessages.toString()
+            if (data.getUnreadMessages == 0) binding.IDContactUnReadCount.visibility = View.GONE
             if (data.name.replace("+", "").isDigitsOnly()) binding.IDContactIcon.visibility = View.VISIBLE
             else binding.IDContactAlias.text = data.name.first().toString()
 

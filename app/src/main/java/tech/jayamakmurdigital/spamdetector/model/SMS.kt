@@ -1,10 +1,8 @@
 package tech.jayamakmurdigital.spamdetector.model
-import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import tech.jayamakmurdigital.spamdetector.utils.SpamDetector
 
 @Entity
 class SMS  {
@@ -27,5 +25,6 @@ class SMS  {
     @ColumnInfo(name = "time")
     var time: Long = 0
 
-    fun getSpamScore(context: Context) = SpamDetector(context).checkMessage(text)
+    @ColumnInfo(name = "spamScore")
+    var spamScore: Int? = null
 }

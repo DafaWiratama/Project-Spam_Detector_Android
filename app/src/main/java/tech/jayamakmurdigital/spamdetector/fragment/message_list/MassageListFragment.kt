@@ -30,7 +30,7 @@ class MassageListFragment : Fragment() {
         binding.IDContactName.text = inboxContact.name
         binding.IDMessages.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = MessageListAdapter(inboxContact.messages.toTypedArray(),viewLifecycleOwner)
+            adapter = MessageListAdapter(inboxContact.messages.toTypedArray())
             scrollToPosition(inboxContact.messages.size - 1)
         }
     }

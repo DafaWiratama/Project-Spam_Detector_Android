@@ -1,26 +1,28 @@
 package tech.jayamakmurdigital.spamdetector.utils
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.asLiveData
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import tech.jayamakmurdigital.spamdetector.ml.Mobile
+import kotlin.math.roundToInt
 
-class SpamDetector(context: Context) {
-    private val queue: RequestQueue = Volley.newRequestQueue(context)
+class SpamDetector(val context: Context) {
+    private val vocab = context.assets.open("vocab.tsv").reader().readLines().toTypedArray()
 
-    fun checkMessage(text: String) = callbackFlow {
-        val stringRequest = StringRequest(Request.Method.GET, "http://24.24.24.11:8080/?text=${text}", { response ->
-            CoroutineScope(Dispatchers.IO).launch { if (response != "") offer(response.toInt()) else offer(0) }
-        }, { Log.e("Volley", it.message.toString()) })
-        queue.add(stringRequest)
-        awaitClose {}
-    }.asLiveData(Dispatchers.IO)
+    private fun encodeText(text: String): Array<Float> {
+        val strings = Regex("[^A-Za-z0-9 ]").replace(text, "").toLowerCase().split(" ")
+        return ArrayList<Float>().apply {
+            for (i in 0..31) if (strings.size > i) add(vocab.indexOf(strings[i]).toFloat() + 1) else add(0F)
+        }.toTypedArray()
+    }
+
+    fun predict(text: String): Int {
+        val model = Mobile.newInstance(context)
+        val inputLayer = TensorBuffer.createFixedSize(intArrayOf(1, 32), DataType.FLOAT32)
+        inputLayer.loadArray(encodeText(text).toFloatArray())
+        val outputs = model.process(inputLayer)
+        val result = outputs.outputFeature0AsTensorBuffer
+        model.close()
+        return (result.getFloatValue(0) * 100).roundToInt()
+    }
 }
