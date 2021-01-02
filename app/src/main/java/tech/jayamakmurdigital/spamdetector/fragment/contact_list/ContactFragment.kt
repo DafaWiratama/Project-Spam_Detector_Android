@@ -46,7 +46,7 @@ class ContactFragment : Fragment() {
         super.onStart()
         val popup = PopupMenu(requireContext(), binding.IDDeveloper)
         popup.menu.add("Reset Unread")
-        popup.menu.add("Menu2 Label")
+        popup.menu.add("Crash App")
         popup.menuInflater.inflate(R.menu.default_menu, popup.menu)
 
         popup.setOnMenuItemClickListener { item ->
@@ -54,8 +54,7 @@ class ContactFragment : Fragment() {
                 popup.menu[0] -> {
 
                 }
-                popup.menu[1] -> {
-                }
+                popup.menu[1] -> throw RuntimeException("Test Crash")
             }
             true
         }
