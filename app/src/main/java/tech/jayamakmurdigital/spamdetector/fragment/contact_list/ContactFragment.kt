@@ -32,6 +32,7 @@ class ContactFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         PermissionManager(this).getPermission()
         initSettingButton()
+        throw RuntimeException("Test Crash") // Force a crash
         CoroutineScope(Dispatchers.IO).launch {
             val contacts = Repository.db.messageDao().contacts
             val unread = Repository.db.messageDao().unread
