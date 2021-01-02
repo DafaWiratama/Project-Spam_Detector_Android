@@ -1,18 +1,16 @@
 package tech.jayamakmurdigital.spamdetector.fragment.message_list
 
-import tech.jayamakmurdigital.spamdetector.model.SMS
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import tech.jayamakmurdigital.spamdetector.databinding.LayoutMessageItemBinding
+import tech.jayamakmurdigital.spamdetector.model.SMS
 import tech.jayamakmurdigital.spamdetector.utils.toString
 
 
-class MessageListAdapter(private val list: Array<SMS>, val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<MessageListAdapter.ViewHolder>() {
+class MessageListAdapter(private val list: Array<SMS>) : RecyclerView.Adapter<MessageListAdapter.ViewHolder>() {
     override fun getItemCount() = list.size
 
 
@@ -21,7 +19,7 @@ class MessageListAdapter(private val list: Array<SMS>, val lifecycleOwner: Lifec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position], lifecycleOwner)
+        holder.bind(list[position])
         try {
             if (list[position - 1].time.toString("dMMYYYY") == list[position].time.toString("dMMYYYY")) {
                 holder.binding.IDMessageDate.visibility = View.GONE
@@ -33,10 +31,10 @@ class MessageListAdapter(private val list: Array<SMS>, val lifecycleOwner: Lifec
 
     class ViewHolder(val binding: LayoutMessageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: SMS, lifecycleOwner: LifecycleOwner) {
+        fun bind(data: SMS) {
             binding.IDMessage.text = data.text
-            if (data.text != "") data.getSpamScore(binding.root.context).observe(lifecycleOwner) {
-                if (it > 80) {
+            data.spamScore?.let { score ->
+                if (score > 80) {
                     binding.IDMessage.alpha = 0.05f
                     binding.IDSPAMALERT.visibility = View.VISIBLE
                     binding.IDMessageContainer.setOnClickListener {
@@ -45,16 +43,11 @@ class MessageListAdapter(private val list: Array<SMS>, val lifecycleOwner: Lifec
                         binding.IDSPAMBadge.visibility = View.VISIBLE
                     }
                 }
-                Log.d("Eirene", "bind: $it")
             }
             binding.IDMessageTime.text = data.time.toString("HH:mm")
             binding.IDMessageDate.text = data.time.toString("EEEE, MMMM d, YYYY")
-            if (data.name.replace("+", "").isDigitsOnly())
-                binding.IDMessageIcon.visibility = View.VISIBLE
+            if (data.name.replace("+", "").isDigitsOnly()) binding.IDMessageIcon.visibility = View.VISIBLE
             else binding.IDContactAlias.text = data.name.first().toString()
-        }
-
-        fun onClick(view: View, data: SMS) {
         }
     }
 }

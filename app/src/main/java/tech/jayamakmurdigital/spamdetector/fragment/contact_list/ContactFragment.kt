@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.loader.app.LoaderManager
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import tech.jayamakmurdigital.spamdetector.R
 import tech.jayamakmurdigital.spamdetector.database.Repository
 import tech.jayamakmurdigital.spamdetector.databinding.FragmentListContactBinding
 import tech.jayamakmurdigital.spamdetector.utils.PermissionManager
-import tech.jayamakmurdigital.spamdetector.utils.SMSHelper
-import tech.jayamakmurdigital.spamdetector.utils.SMSLoader
 
 
 class ContactFragment : Fragment() {
@@ -30,18 +31,49 @@ class ContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PermissionManager(this).getPermission()
-        val loader = SMSLoader(requireContext())
-        LoaderManager.getInstance(this).initLoader(0, null, loader)
-        loader.messages.observe(viewLifecycleOwner) { messages ->
-            var unread = 0
-            messages.forEach { if (!it.read) unread++ }
-            binding.IDUnreadCount.text = "$unread Unread Message"
-        }
-        loader.groupMessages.observe(viewLifecycleOwner) { contacts ->
-        }
+        initSettingButton()
         CoroutineScope(Dispatchers.IO).launch {
-            val contacts = SMSHelper().groupMessage(Repository.db.messageDao().messages)
-            binding.IDMessages.adapter = ContactAdapter(contacts)
+            val contacts = Repository.db.messageDao().contacts
+            val unread = Repository.db.messageDao().unread
+            launch(Dispatchers.Main) {
+                binding.IDMessages.adapter = ContactAdapter(contacts)
+                binding.IDUnreadCount.text = "$unread Unread Message"
+            }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val popup = PopupMenu(requireContext(), binding.IDDeveloper)
+        popup.menu.add("Reset Unread")
+        popup.menu.add("Crash App")
+        popup.menuInflater.inflate(R.menu.default_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item) {
+                popup.menu[0] -> {
+
+                }
+                popup.menu[1] -> throw RuntimeException("Test Crash")
+            }
+            true
+        }
+        binding.IDDeveloper.setOnClickListener { popup.show() }
+    }
+
+    fun initSettingButton() {
+        val popup = PopupMenu(requireContext(), binding.IDSetting)
+        popup.menu.add("Text Detector")
+        popup.menuInflater.inflate(R.menu.default_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item) {
+                popup.menu[0] -> {
+                    binding.root.findNavController().navigate(ContactFragmentDirections.actionContactListFragmentToMessageCheckerFragment())
+                }
+            }
+            true
+        }
+        binding.IDSetting.setOnClickListener { popup.show() }
     }
 }
